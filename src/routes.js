@@ -4,7 +4,6 @@ const adminController = require('./controllers/admin');
 
 const routes = express.Router();
 
-
 routes.get('/GetAll', CrudController.GetAll);
 routes.get('/GetID/:id', CrudController.GetID);
 routes.post('/InsertAluno', CrudController.Post);
