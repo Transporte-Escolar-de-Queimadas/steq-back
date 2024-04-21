@@ -3,6 +3,7 @@ const connection = require("../database/connection")
 module.exports = {
 
   async create(req, res) {
+
     try {
         const { embarkation_place, embarkation_time, destinations} = req.body
         const destinationsJSON = JSON.stringify(destinations); // Serializa o array para JSON
@@ -12,10 +13,10 @@ module.exports = {
           embarkation_time,
           destinations: destinationsJSON, // Insere a versão serializada na coluna
         })
-    
-        return res.json({ id })        
+        
+        return res.status(201).send('Rota criada!');
     } catch (error) {
-        return res.status(500).json({ error: "Erro ao processar a solicitação" });
+        return res.status(400).send(error.message);
     }
   },
 
@@ -32,7 +33,7 @@ module.exports = {
 
         const DBRoute = await connection('routes').where('id', id)
         //Verirfica se existe rota
-        if (DBRoute.length<1) {
+        if (DBRoute.length < 1) {
             return res.status(409).send({ mensagem: 'Rota não existente' })
         } 
         else{
