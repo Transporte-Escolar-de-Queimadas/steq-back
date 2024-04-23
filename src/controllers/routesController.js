@@ -30,6 +30,7 @@ module.exports = {
         //Pega os dados da rota
         const { id } = req.params
         const { embarkation_place, embarkation_time, destinations} = req.body
+        
 
         const DBRoute = await connection('routes').where('id', id)
         //Verirfica se existe rota
@@ -41,7 +42,7 @@ module.exports = {
           await connection('routes').where('id', id).update({
             embarkation_place,
             embarkation_time,
-            destinations: destinationsJSON,           
+            destinations: destinationsJSON, // Insere a versão serializada na coluna
           })    
           return res.status(200).send({ mensagem: 'Rota atualizada com sucesso!' })
         }
@@ -52,9 +53,8 @@ module.exports = {
 
   async delete(req, res){
     try {
-        //Pega os dados da rota
+        //Pega o id da rota
         const { id } = req.params
-        const { embarkation_place, embarkation_time, destinations} = req.body
 
         const DBRoute = await connection('routes').where('id', id)
         //Verirfica se existe rota
@@ -62,7 +62,6 @@ module.exports = {
             return res.status(409).send({ mensagem: 'Rota não existente' })
         } 
         else{
-          const destinationsJSON = JSON.stringify(destinations);
           await connection('routes').where('id', id).delete();    
           return res.status(200).send({ mensagem: 'Rota deletada com sucesso!' })
         }
