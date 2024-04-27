@@ -29,7 +29,7 @@ module.exports = {
     try {
         //Pega os dados do aviso
         const { id } = req.params
-        const { title, data, description, edited} = req.body
+        const { title, date, description, edited} = req.body
         
         const DBNotice= await connection('notices').where('id', id)
         //Verirfica se existe aviso
@@ -39,7 +39,7 @@ module.exports = {
         else{         
           await connection('notices').where('id', id).update({
             title,
-            data,
+            date,
             description,
             edited, 
           })    
